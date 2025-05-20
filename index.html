@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowd Monitor - Kapaleshwar Temple</title>
+    <style>
+        :root {
+            --primary-color: #00e6b8;
+            --secondary-color: #1a1a2e;
+            --text-color: #ffffff;
+            --card-bg: #16213e;
+            --body-bg: #0f0f1a;
+            --normal-status: #2ecc71;
+            --warning-status: #f39c12;
+            --danger-status: #e74c3c;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--body-bg);
+            color: var(--text-color);
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        .header {
+            background-color: var(--secondary-color);
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 2.5rem;
+        }
+        
+        .back-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s;
+        }
+        
+        .back-button:hover {
+            background-color: #252545;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        .live-feed {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background-color: #000;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .live-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: var(--danger-status);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .live-indicator::before {
+            content: "";
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            margin-right: 5px;
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .analytics-item {
+            background-color: rgba(26, 26, 46, 0.7);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .analytics-title {
+            font-size: 1.2rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .analytics-value {
+            font-size: 1.8rem;
+            margin: 0;
+        }
+        
+        .temple-info {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .temple-image {
+            width: 100%;
+            height: 150px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        
+        .status-normal {
+            color: var(--normal-status);
+        }
+        
+        .status-warning {
+            color: var(--warning-status);
+        }
+        
+        .status-danger {
+            color: var(--danger-status);
+        }
+        
+        .crowd-gauge {
+            width: 100%;
+            height: 30px;
+            background-color: #2c3e50;
+            border-radius: 15px;
+            margin-top: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .crowd-gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--normal-status), var(--warning-status), var(--danger-status));
+            width: 0%;
+            transition: width 1s ease-in-out;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="#" class="back-button">← Back to Home</a>
+        
+        <div class="header">
+            <h1>Kapaleshwar Temple</h1>
+        </div>
+        
+        <div class="main-content">
+            <div class="card">
+                <h2 class="card-title">Live Feed</h2>
+                <div class="live-feed">
+                    <div class="live-indicator">Live Video Feed</div>
+                    <video id="videoElement" autoplay style="width: 100%; height: 100%; object-fit: cover;">
+                        Your browser does not support the video element.
+                    </video>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2 class="card-title">Real-Time Analytics</h2>
+                
+                <div class="analytics-item">
+                    <h3 class="analytics-title">Current Count</h3>
+                    <p class="analytics-value" id="currentCount">0 people</p>
+                </div>
+                
+                <div class="analytics-item">
+                    <h3 class="analytics-title">Crowd Density</h3>
+                    <div class="crowd-gauge">
+                        <div class="crowd-gauge-fill" id="crowdDensityGauge"></div>
+                    </div>
+                    <p style="text-align: right; margin-top: 5px;" id="densityPercentage">0%</p>
+                </div>
+                
+                <div class="analytics-item">
+                    <h3 class="analytics-title">Status</h3>
+                    <p class="analytics-value status-normal" id="statusIndicator">Normal</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card temple-info">
+            <div style="display: flex; overflow: hidden; border-radius: 8px;">
+                <img src="/api/placeholder/600/150" alt="Temple crowd" style="width: 50%; object-fit: cover;">
+                <img src="/api/placeholder/600/150" alt="Temple entrance" style="width: 50%; object-fit: cover;">
+            </div>
+            
+            <h2>Kapaleshwar Temple</h2>
+            <p>Historic temple complex with significant cultural importance</p>
+            <p><strong>Maximum Capacity:</strong> 500 people</p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 Temple Crowd Monitoring System | Powered by Computer Vision & AI</p>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const MAX_CAPACITY = 500;
+        let currentPeopleCount = 0;
+        
+        // DOM elements
+        const countElement = document.getElementById('currentCount');
+        const statusElement = document.getElementById('statusIndicator');
+        const densityGauge = document.getElementById('crowdDensityGauge');
+        const densityPercentage = document.getElementById('densityPercentage');
+        
+        // Mock video stream (in a real implementation, this would connect to the actual camera feed)
+        const videoElement = document.getElementById('videoElement');
+        
+        // Function to update crowd metrics based on data
+        function updateCrowdMetrics(count) {
+            currentPeopleCount = count;
+            
+            // Update count display
+            countElement.textContent = `${count} people`;
+            
+            // Calculate percentage of capacity
+            const percentFull = (count / MAX_CAPACITY) * 100;
+            
+            // Update gauge
+            densityGauge.style.width = `${percentFull}%`;
+            densityPercentage.textContent = `${Math.round(percentFull)}%`;
+            
+            // Update status
+            if (percentFull < 40) {
+                statusElement.textContent = 'Normal';
+                statusElement.className = 'analytics-value status-normal';
+            } else if (percentFull < 80) {
+                statusElement.textContent = 'Moderate';
+                statusElement.className = 'analytics-value status-warning';
+            } else {
+                statusElement.textContent = 'Crowded';
+                statusElement.className = 'analytics-value status-danger';
+            }
+        }
+        
+        // Function to fetch data from backend
+        async function fetchCrowdData() {
+            try {
+                // In a real implementation, this would be an API call to your backend
+                // that returns data from the crowd analysis model
+                // For demo purposes, we're simulating random data
+                
+                // Simulate API response
+                const randomCount = Math.floor(Math.random() * MAX_CAPACITY);
+                updateCrowdMetrics(randomCount);
+                
+            } catch (error) {
+                console.error('Error fetching crowd data:', error);
+            }
+        }
+        
+        // Simulate video feed (would be replaced with actual camera feed)
+        function setupMockVideoFeed() {
+            // In a real implementation, this would connect to your camera feed
+            // For demo purposes, we're just displaying a placeholder message
+            const ctx = document.createElement('canvas').getContext('2d');
+            ctx.canvas.width = 640;
+            ctx.canvas.height = 480;
+            
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+            
+            ctx.font = '20px Arial';
+            ctx.fillStyle = '#fff';
+            ctx.textAlign = 'center';
+            ctx.fillText('Live Camera Feed', ctx.canvas.width/2, ctx.canvas.height/2);
+            
+            const stream = ctx.canvas.captureStream(30);
+            videoElement.srcObject = stream;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initial data fetch
+            fetchCrowdData();
+            
+            // Setup mock video feed
+            setupMockVideoFeed();
+            
+            // Poll for new data every 3 seconds
+            setInterval(fetchCrowdData, 3000);
+            
+            // In a real implementation, you might use WebSockets for real-time updates
+            // instead of polling
+        });
+        
+        // In a production environment, you would connect this frontend to your
+        // backend server that processes the video feed using the crowd analysis model
+        // The backend would provide real-time crowd count data via API or WebSockets
+    </script>
+</body>
+</html>
