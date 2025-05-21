@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowd Monitoring Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .location-card {
+            transition: transform 0.3s;
+            margin-bottom: 20px;
+        }
+        .location-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+        .feature-icon {
+            font-size: 2rem;
+            color: #0d6efd;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('dashboard') }}">Crowd Monitor</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row mb-4">
+            <div class="col">
+                <h1>Welcome, {{ current_user.username }}</h1>
+                <p class="lead">Select a location to start monitoring</p>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-md-4">
+                <div class="card location-card shadow">
+                    <img src="/static/images/temple.jpeg" class="card-img-top" alt="Kapaleshwar Temple" 
+                         onerror="this.src='https://via.placeholder.com/400x200?text=Kapaleshwar+Temple'">
+                    <div class="card-body">
+                        <h5 class="card-title">Kapaleshwar Temple</h5>
+                        <p class="card-text">Monitor crowd activities at the temple entrance and surrounding areas.</p>
+                        <a href="{{ url_for('monitor', location='kapaleshwar_temple') }}" class="btn btn-primary">
+                            <i class="fas fa-video"></i> Start Monitoring
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card location-card shadow">
+                    <img src="/static/images/ghat.jpeg" class="card-img-top" alt="Godavari Ghat" 
+                         onerror="this.src='https://via.placeholder.com/400x200?text=Godavari+Ghat'">
+                    <div class="card-body">
+                        <h5 class="card-title">Godavari Ghat</h5>
+                        <p class="card-text">High-angle view of the ghat area for monitoring large gatherings.</p>
+                        <a href="{{ url_for('monitor', location='godavari_ghat') }}" class="btn btn-primary">
+                            <i class="fas fa-video"></i> Start Monitoring
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card location-card shadow">
+                    <img src="/static/images/cave.jpeg" class="card-img-top" alt="Sita Gufa" 
+                         onerror="this.src='https://via.placeholder.com/400x200?text=Sita+Gufa'">
+                    <div class="card-body">
+                        <h5 class="card-title">Sita Gufa</h5>
+                        <p class="card-text">Narrow cave entrance monitoring to prevent overcrowding.</p>
+                        <a href="{{ url_for('monitor', location='sita_gufa') }}" class="btn btn-primary">
+                            <i class="fas fa-video"></i> Start Monitoring
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <h2 class="mb-4">System Features</h2>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h5>Crowd Counting</h5>
+                    <p>Accurate detection and counting of people in crowded scenes</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-ruler-horizontal"></i>
+                    </div>
+                    <h5>Social Distance Monitoring</h5>
+                    <p>Detection of social distancing violations in public spaces</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <h5>Abnormal Activity</h5>
+                    <p>Detection of unusual movements and potentially dangerous situations</p>
+                </div>
+            </div>
+            
+            <div class="col-md-3">
+                <div class="text-center">
+                    <div class="feature-icon">
+                        <i class="fas fa-ban"></i>
+                    </div>
+                    <h5>Restricted Entry</h5>
+                    <p>Enforcing time-based entry restrictions at sensitive locations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.3/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
