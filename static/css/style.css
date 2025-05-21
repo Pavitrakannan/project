@@ -1,0 +1,28 @@
+/* static/css/style.css - Base styles */
+:root {
+    --cyan: #00ebcf;
+    --dark-cyan: #00b3a1;
+    --dark: #212529;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.text-cyan {
+    color: var(--cyan) !important;
+}
+
+.btn-cyan {
+    background-color: var(--cyan);
+    border-color: var(--cyan);
+    color: var(--dark);
+    font-weight: 500;
+}
+
+.btn-cyan:hover {
+    background-color: var(--dark-cyan);
+    border-color: var(--dark-cyan);
+    color: white;
+}

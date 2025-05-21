@@ -1,0 +1,54 @@
+/* static/css/monitor.css - Monitor page specific styles */
+.video-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+    border-radius: 0 0 5px 5px;
+}
+
+.video-container img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.stats-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.stat-item h6 {
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark);
+}
+
+.alert-danger {
+    background-color: rgba(220, 53, 69, 0.1);
+    border-left: 4px solid #dc3545;
+}
+
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+}
+
+.alert-info {
+    background-color: rgba(13, 202, 240, 0.1);
+    border-left: 4px solid #0dcaf0;
+}
